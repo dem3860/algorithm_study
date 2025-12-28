@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"slices"
-	"sort"
 	"strconv"
 )
 
@@ -69,29 +68,22 @@ func lowerBound(a []int, x int) (int, bool) {
 	return i, found
 }
 
-type A struct {
-	index int
-	value int
-}
-
 func main() {
 	io := NewFastIO()
 	defer io.Flush()
 
 	n := io.ReadInt()
 
-	a := make([]A, n)
+	a := make([]int, n)
 	a_value := make([]int, n)
 
 	for i := 0; i < n; i++ {
 		val := io.ReadInt()
-		a[i] = A{index: i, value: val}
+		a[i] = val
 		a_value[i] = val
 	}
 
-	sort.Slice(a_value, func(i, j int) bool {
-		return a_value[i] < a_value[j]
-	})
+	slices.Sort(a_value)
 
 	uniq := make([]int, 0, n)
 	for _, v := range a_value {
@@ -102,8 +94,8 @@ func main() {
 
 	b := make([]int, n)
 	for i := 0; i < n; i++ {
-		idx, _ := lowerBound(uniq, a[i].value)
-		b[a[i].index] = idx
+		idx, _ := lowerBound(uniq, a[i])
+		b[i] = idx
 	}
 
 	for i := 0; i < n; i++ {
