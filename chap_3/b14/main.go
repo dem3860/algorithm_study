@@ -81,7 +81,6 @@ func enumerateSubsetSums(x []int) []int {
 	return res
 }
 
-
 func lowerBound(a []int, x int) (int, bool) {
 	i, found := slices.BinarySearch(a, x)
 	return i, found
@@ -102,36 +101,36 @@ func main() {
 
 	fmt.Println("a", a)
 
-	l1 := make([]int, n / 2)
-	l2 := make([]int, n - n / 2)
+	l1 := make([]int, n/2)
+	l2 := make([]int, n-n/2)
 
-	for i := 0; i < n / 2; i++ {
+	for i := 0; i < n/2; i++ {
 		l1[i] = a[i]
 	}
 
 	for i := n / 2; i < n; i++ {
-		l2[i - n / 2] = a[i]
+		l2[i-n/2] = a[i]
 	}
 
 	fmt.Println("l1", l1)
 	fmt.Println("l2", l2)
 
-	fmt.Println("k",k)
+	fmt.Println("k", k)
 
 	sums1 := enumerateSubsetSums(l1)
 	sums2 := enumerateSubsetSums(l2)
 
-	sort.Slice(sums1,func(i,j int) bool {
+	sort.Slice(sums1, func(i, j int) bool {
 		return sums1[i] < sums1[j]
 	})
 
-	sort.Slice(sums2,func(i,j int) bool {
+	sort.Slice(sums2, func(i, j int) bool {
 		return sums2[i] < sums2[j]
 	})
 
 	for i := 0; i < len(sums1); i++ {
 		x := k - sums1[i]
-		_,found := lowerBound(sums2,x)
+		_, found := lowerBound(sums2, x)
 		if found {
 			io.Println("Yes")
 			return

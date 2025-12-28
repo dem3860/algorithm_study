@@ -64,27 +64,14 @@ func (io *FastIO) Flush() {
 	io.writer.Flush()
 }
 
-func enumerateSubsetSums(x []int) []int {
-	m := len(x)
-	res := make([]int, 0, 1<<m)
-
-	for mask := 0; mask < (1 << m); mask++ {
-		sum := 0
-		for i := 0; i < m; i++ {
-			if (mask>>i)&1 == 1 {
-				sum += x[i]
-			}
-		}
-		res = append(res, sum)
-	}
-
-	return res
-}
-
-
 func lowerBound(a []int, x int) (int, bool) {
 	i, found := slices.BinarySearch(a, x)
 	return i, found
+}
+
+type A struct {
+	index int
+	value int
 }
 
 func main() {
@@ -92,52 +79,38 @@ func main() {
 	defer io.Flush()
 
 	n := io.ReadInt()
-	k := io.ReadInt()
 
-	a := make([]int, n)
+	a := make([]A, n)
+	a_value := make([]int, n)
 
 	for i := 0; i < n; i++ {
-		a[i] = io.ReadInt()
+		val := io.ReadInt()
+		a[i] = A{index: i, value: val}
+		a_value[i] = val
 	}
 
-	fmt.Println("a", a)
-
-	l1 := make([]int, n / 2)
-	l2 := make([]int, n - n / 2)
-
-	for i := 0; i < n / 2; i++ {
-		l1[i] = a[i]
-	}
-
-	for i := n / 2; i < n; i++ {
-		l2[i - n / 2] = a[i]
-	}
-
-	fmt.Println("l1", l1)
-	fmt.Println("l2", l2)
-
-	fmt.Println("k",k)
-
-	sums1 := enumerateSubsetSums(l1)
-	sums2 := enumerateSubsetSums(l2)
-
-	sort.Slice(sums1,func(i,j int) bool {
-		return sums1[i] < sums1[j]
+	sort.Slice(a_value, func(i, j int) bool {
+		return a_value[i] < a_value[j]
 	})
 
-	sort.Slice(sums2,func(i,j int) bool {
-		return sums2[i] < sums2[j]
-	})
-
-	for i := 0; i < len(sums1); i++ {
-		x := k - sums1[i]
-		_,found := lowerBound(sums2,x)
-		if found {
-			io.Println("Yes")
-			return
+	uniq := make([]int, 0, n)
+	for _, v := range a_value {
+		if len(uniq) == 0 || uniq[len(uniq)-1] != v {
+			uniq = append(uniq, v)
 		}
 	}
 
-	io.Println("No")
+	b := make([]int, n)
+	for i := 0; i < n; i++ {
+		idx, _ := lowerBound(uniq, a[i].value)
+		b[a[i].index] = idx
+	}
 
+	for i := 0; i < n; i++ {
+		if i > 0 {
+			io.Printf(" ")
+		}
+		io.Printf("%d", b[i])
+	}
+	io.Printf("\n")
 }

@@ -117,17 +117,17 @@ func main() {
 		}
 	}
 
-	sort.Slice(p, func(i,j int) bool {
+	sort.Slice(p, func(i, j int) bool {
 		return p[i] < p[j]
 	})
 
-	sort.Slice(q,func(i,j int) bool {
+	sort.Slice(q, func(i, j int) bool {
 		return q[i] < q[j]
 	})
 
-	for i := 0; i < n * n;i++ {
+	for i := 0; i < n*n; i++ {
 		x := k - p[i]
-		_,found := lowerBound(q,x)
+		_, found := lowerBound(q, x)
 		if found {
 			io.Println("Yes")
 			return

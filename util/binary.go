@@ -29,7 +29,18 @@ func lowerBound(a []int, x int) (int, bool) {
 	return i, found
 }
 
-// ------- 全列挙 -------
+// ------- upper bound関数 -------
+// c++のupper_boundに相当する関数
+// aという配列の中からxより大きい最小の値のindexとそれが配列内に存在するかどうかのboolを返す
+func upperBound(a []int, x int) (int, bool) {
+	i, found := slices.BinarySearch(a, x)
+	for i < len(a) && a[i] == x {
+		i++
+	}
+	return i, found
+}
+
+// ------- 全列挙(座標圧縮) -------
 func enumerateSubsetSums(x []int) []int {
 	m := len(x)
 	res := make([]int, 0, 1<<m)
@@ -46,4 +57,3 @@ func enumerateSubsetSums(x []int) []int {
 
 	return res
 }
-
