@@ -62,30 +62,43 @@ func (io *FastIO) Flush() {
 	io.writer.Flush()
 }
 
-func Power(a, b, m int64) int64 {
-	var result int64 = 1
-	p := a % m
-
-	for b > 0 {
-		if b&1 == 1 {
-			result = result * p % m
-		}
-		p = p * p % m
-		b >>= 1
-	}
-	return result
-}
-
-const MOD int64 = 1000000007
-
 func main() {
 	io := NewFastIO()
 	defer io.Flush()
 
-	a := io.ReadInt64()
-	b := io.ReadInt64()
+	n := io.ReadInt()
 
-	res := Power(a, b, MOD)
+	a := make([][]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = make([]int, n)
+		for j := 0; j < n; j++ {
+			a[i][j] = io.ReadInt()
+		}
+	}
 
-	io.Println(res)
+	// 何行目を見ているかを保持する状態変数
+	state := make([]int, n)
+	for i := 0; i < n; i++ {
+		state[i] = i
+	}
+
+	q := io.ReadInt()
+	for i := 0; i < q; i++ {
+		queryType := io.ReadInt()
+
+		if queryType == 1 {
+			x := io.ReadInt() - 1
+			y := io.ReadInt() - 1
+
+			state[x], state[y] = state[y], state[x]
+		}
+
+		if queryType == 2 {
+			x := io.ReadInt() - 1
+			y := io.ReadInt() - 1
+
+			io.Println(a[state[x]][y])
+		}
+
+	}
 }

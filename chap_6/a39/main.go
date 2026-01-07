@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 )
 
@@ -62,30 +63,45 @@ func (io *FastIO) Flush() {
 	io.writer.Flush()
 }
 
-func Power(a, b, m int64) int64 {
-	var result int64 = 1
-	p := a % m
-
-	for b > 0 {
-		if b&1 == 1 {
-			result = result * p % m
-		}
-		p = p * p % m
-		b >>= 1
-	}
-	return result
+type Movie struct {
+	l int
+	r int
 }
-
-const MOD int64 = 1000000007
 
 func main() {
 	io := NewFastIO()
 	defer io.Flush()
 
-	a := io.ReadInt64()
-	b := io.ReadInt64()
+	n := io.ReadInt()
 
-	res := Power(a, b, MOD)
+	movies := make([]Movie, n)
+	for i := 0; i < n; i++ {
+		movies[i] = Movie{
+			l: io.ReadInt(),
+			r: io.ReadInt(),
+		}
+	}
 
-	io.Println(res)
+	slices.SortFunc(movies, func(a, b Movie) int {
+		if a.r < b.r {
+			return -1
+		}
+		if a.r > b.r {
+			return 1
+		}
+		return 0
+	})
+
+	currentTime := 0
+	answer := 0
+
+	for i := 0; i < n; i++ {
+		if currentTime <= movies[i].l {
+			currentTime = movies[i].r
+			answer++
+		}
+	}
+
+	io.Println(answer)
+
 }

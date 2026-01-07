@@ -62,30 +62,18 @@ func (io *FastIO) Flush() {
 	io.writer.Flush()
 }
 
-func Power(a, b, m int64) int64 {
-	var result int64 = 1
-	p := a % m
-
-	for b > 0 {
-		if b&1 == 1 {
-			result = result * p % m
-		}
-		p = p * p % m
-		b >>= 1
-	}
-	return result
-}
-
-const MOD int64 = 1000000007
-
 func main() {
 	io := NewFastIO()
 	defer io.Flush()
 
-	a := io.ReadInt64()
-	b := io.ReadInt64()
+	n := io.ReadInt()
+	k := io.ReadInt()
 
-	res := Power(a, b, MOD)
+	if k >= 2*n-2 && k%2 == 0 {
+		io.Println("Yes")
+		return
+	} else {
+		io.Println("No")
+	}
 
-	io.Println(res)
 }

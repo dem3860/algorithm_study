@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 )
 
@@ -62,30 +63,36 @@ func (io *FastIO) Flush() {
 	io.writer.Flush()
 }
 
-func Power(a, b, m int64) int64 {
-	var result int64 = 1
-	p := a % m
-
-	for b > 0 {
-		if b&1 == 1 {
-			result = result * p % m
-		}
-		p = p * p % m
-		b >>= 1
-	}
-	return result
+type Pair struct {
+	x int
+	y int
 }
-
-const MOD int64 = 1000000007
 
 func main() {
 	io := NewFastIO()
 	defer io.Flush()
 
-	a := io.ReadInt64()
-	b := io.ReadInt64()
+	X := io.ReadInt()
+	Y := io.ReadInt()
 
-	res := Power(a, b, MOD)
+	// 一旦appendのコスト許容する
+	ans := make([]Pair, 0)
 
-	io.Println(res)
+	for X >= 2 || Y >= 2 {
+		ans = append(ans, Pair{X, Y})
+		if X > Y {
+			X -= Y
+		} else {
+			Y -= X
+		}
+	}
+
+	slices.Reverse(ans)
+
+	n := len(ans)
+
+	io.Println(n)
+	for i := 0; i < n; i++ {
+		io.Println(ans[i].x, ans[i].y)
+	}
 }

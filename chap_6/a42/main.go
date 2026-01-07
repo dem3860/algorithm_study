@@ -62,30 +62,38 @@ func (io *FastIO) Flush() {
 	io.writer.Flush()
 }
 
-func Power(a, b, m int64) int64 {
-	var result int64 = 1
-	p := a % m
+func GetScore(a int, b int, k int, A []int, B []int, n int) int {
+	cnt := 0
 
-	for b > 0 {
-		if b&1 == 1 {
-			result = result * p % m
+	for i := 0; i < n; i++ {
+		if a <= A[i] && A[i] <= a+k && b <= B[i] && B[i] <= b+k {
+			cnt++
 		}
-		p = p * p % m
-		b >>= 1
 	}
-	return result
+	return cnt
 }
-
-const MOD int64 = 1000000007
 
 func main() {
 	io := NewFastIO()
 	defer io.Flush()
 
-	a := io.ReadInt64()
-	b := io.ReadInt64()
+	n := io.ReadInt()
+	k := io.ReadInt()
 
-	res := Power(a, b, MOD)
+	A := make([]int, n)
+	B := make([]int, n)
 
-	io.Println(res)
+	for i := 0; i < n; i++ {
+		A[i] = io.ReadInt()
+		B[i] = io.ReadInt()
+	}
+
+	max_ans := 0
+	for i := 1; i <= 100; i++ {
+		for j := 1; j <= 100; j++ {
+			max_ans = max(max_ans, GetScore(i, j, k, A, B, n))
+		}
+	}
+
+	io.Println(max_ans)
 }

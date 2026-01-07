@@ -61,3 +61,20 @@ func Power(a, b, m int64) int64 {
 	}
 	return result
 }
+
+// -----
+func SumOfDigitSums(n int64) int64 {
+	var res int64 = 0
+
+	for factor := int64(1); factor <= n; factor *= 10 {
+		higher := n / (factor * 10)
+		cur := (n / factor) % 10
+		lower := n % factor
+
+		res += higher * 45 * factor
+		res += (cur * (cur - 1) / 2) * factor
+		res += cur * (lower + 1)
+	}
+
+	return res
+}

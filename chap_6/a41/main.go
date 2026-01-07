@@ -62,30 +62,34 @@ func (io *FastIO) Flush() {
 	io.writer.Flush()
 }
 
-func Power(a, b, m int64) int64 {
-	var result int64 = 1
-	p := a % m
-
-	for b > 0 {
-		if b&1 == 1 {
-			result = result * p % m
-		}
-		p = p * p % m
-		b >>= 1
-	}
-	return result
+type Movie struct {
+	l int
+	r int
 }
-
-const MOD int64 = 1000000007
 
 func main() {
 	io := NewFastIO()
 	defer io.Flush()
 
-	a := io.ReadInt64()
-	b := io.ReadInt64()
+	n := io.ReadInt()
 
-	res := Power(a, b, MOD)
+	s := io.ReadString()
 
-	io.Println(res)
+	ans := false
+
+	for i := 0; i < n-2; i++ {
+		if s[i] == 'R' && s[i+1] == 'R' && s[i+2] == 'R' {
+			ans = true
+		}
+		if s[i] == 'B' && s[i+1] == 'B' && s[i+2] == 'B' {
+			ans = true
+		}
+	}
+
+	if ans == true {
+		io.Println("Yes")
+	} else {
+		io.Println("No")
+	}
+
 }

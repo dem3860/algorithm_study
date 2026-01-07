@@ -62,30 +62,54 @@ func (io *FastIO) Flush() {
 	io.writer.Flush()
 }
 
-func Power(a, b, m int64) int64 {
-	var result int64 = 1
-	p := a % m
-
-	for b > 0 {
-		if b&1 == 1 {
-			result = result * p % m
-		}
-		p = p * p % m
-		b >>= 1
-	}
-	return result
-}
-
-const MOD int64 = 1000000007
-
 func main() {
 	io := NewFastIO()
 	defer io.Flush()
 
-	a := io.ReadInt64()
-	b := io.ReadInt64()
+	n := io.ReadInt()
+	q := io.ReadInt()
 
-	res := Power(a, b, MOD)
+	a := make([]int, n)
 
-	io.Println(res)
+	for i := 0; i < n; i++ {
+		a[i] = i + 1
+	}
+
+	// queryType = 2で反転されているかを示す状態変数
+	state := 1
+
+	for i := 0; i < q; i++ {
+		queryType := io.ReadInt()
+
+		if queryType == 1 {
+			x := io.ReadInt()
+			y := io.ReadInt()
+
+			if state == 1 {
+				a[x-1] = y
+			}
+			if state == 2 {
+				a[n-x] = y
+			}
+		}
+
+		if queryType == 2 {
+			if state == 1 {
+				state = 2
+			} else {
+				state = 1
+			}
+		}
+
+		if queryType == 3 {
+			x := io.ReadInt()
+			if state == 1 {
+				io.Println(a[x-1])
+			}
+			if state == 2 {
+				io.Println(a[n-x])
+			}
+		}
+
+	}
 }

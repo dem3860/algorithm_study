@@ -62,30 +62,30 @@ func (io *FastIO) Flush() {
 	io.writer.Flush()
 }
 
-func Power(a, b, m int64) int64 {
-	var result int64 = 1
-	p := a % m
+func SumOfDigitSums(n int64) int64 {
+	var res int64 = 0
 
-	for b > 0 {
-		if b&1 == 1 {
-			result = result * p % m
-		}
-		p = p * p % m
-		b >>= 1
+	for factor := int64(1); factor <= n; factor *= 10 {
+		higher := n / (factor * 10)
+		cur := (n / factor) % 10
+		lower := n % factor
+
+		res += higher * 45 * factor
+		res += (cur * (cur - 1) / 2) * factor
+		res += cur * (lower + 1)
 	}
-	return result
-}
 
-const MOD int64 = 1000000007
+	return res
+}
 
 func main() {
 	io := NewFastIO()
 	defer io.Flush()
 
-	a := io.ReadInt64()
-	b := io.ReadInt64()
+	n := io.ReadInt64()
 
-	res := Power(a, b, MOD)
+	res := SumOfDigitSums(n)
 
 	io.Println(res)
+
 }

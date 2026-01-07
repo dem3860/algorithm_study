@@ -62,30 +62,45 @@ func (io *FastIO) Flush() {
 	io.writer.Flush()
 }
 
-func Power(a, b, m int64) int64 {
-	var result int64 = 1
-	p := a % m
-
-	for b > 0 {
-		if b&1 == 1 {
-			result = result * p % m
-		}
-		p = p * p % m
-		b >>= 1
-	}
-	return result
-}
-
-const MOD int64 = 1000000007
-
 func main() {
 	io := NewFastIO()
 	defer io.Flush()
 
-	a := io.ReadInt64()
-	b := io.ReadInt64()
+	d := io.ReadInt()
+	n := io.ReadInt()
 
-	res := Power(a, b, MOD)
+	l := make([]int, n)
+	r := make([]int, n)
+	h := make([]int, n)
 
-	io.Println(res)
+	for i := 0; i < n; i++ {
+		l_in := io.ReadInt()
+		r_in := io.ReadInt()
+		h_in := io.ReadInt()
+
+		l[i] = l_in - 1
+		r[i] = r_in - 1
+		h[i] = h_in
+	}
+
+	// lim[i] : i日目の最大労働可能時間
+	lim := make([]int, d)
+
+	for i := 0; i < d; i++ {
+		lim[i] = 24
+	}
+
+	for i := 0; i < n; i++ {
+		for j := l[i]; j <= r[i]; j++ {
+			lim[j] = min(lim[j], h[i])
+		}
+	}
+
+	answer := 0
+	for i := 0; i < d; i++ {
+		answer += lim[i]
+	}
+
+	io.Println(answer)
+
 }
