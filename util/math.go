@@ -78,3 +78,13 @@ func SumOfDigitSums(n int64) int64 {
 
 	return res
 }
+
+// ----- 角桁の和 --------
+func digitSum(x int) int {
+	sum := 0
+	for x > 0 {
+		sum += x % 10
+		x /= 10
+	}
+	return sum
+}
