@@ -123,7 +123,7 @@ func (uf *UnionFind) Size(x int) int {
 }
 
 type Edge struct {
-	w  int
+	w   int
 	idx int
 }
 
@@ -137,28 +137,28 @@ func main() {
 
 	n := io.ReadInt()
 	m := io.ReadInt()
-	a := make([]int,m)
-	b := make([]int,m)
-	c := make([]int,m)
+	a := make([]int, m)
+	b := make([]int, m)
+	c := make([]int, m)
 
-	for i := 0;i < m;i++ {
+	for i := 0; i < m; i++ {
 		a[i] = io.ReadInt() - 1
 		b[i] = io.ReadInt() - 1
 		c[i] = io.ReadInt()
 	}
 
-	edge := make([]Edge,m)
+	edge := make([]Edge, m)
 
-	for i := 0;i < m;i++ {
-		edge[i] = Edge{idx: i,w:c[i]}
+	for i := 0; i < m; i++ {
+		edge[i] = Edge{idx: i, w: c[i]}
 	}
 
 	// wについて昇順
-	slices.SortFunc(edge,func(a,b Edge) int {
+	slices.SortFunc(edge, func(a, b Edge) int {
 		if a.w < b.w {
 			return -1
 		}
-		if a.w > b.w { 
+		if a.w > b.w {
 			return 1
 		}
 		return 0
@@ -167,16 +167,15 @@ func main() {
 	answer := 0
 	uf := NewUnionFind(n)
 
-	for i := 0;i < len(edge);i++ {
+	for i := 0; i < len(edge); i++ {
 		idx := edge[i].idx
 
-		if uf.IsSame(a[idx],b[idx]) == false {
-			uf.Unite(a[idx],b[idx])
+		if uf.IsSame(a[idx], b[idx]) == false {
+			uf.Unite(a[idx], b[idx])
 			answer += c[idx]
 		}
 	}
 
 	io.Println(answer)
-
 
 }

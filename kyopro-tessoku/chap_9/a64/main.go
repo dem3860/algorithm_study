@@ -151,7 +151,6 @@ func main() {
 				dist[e.to] = dist[v] + e.w
 				heap.Push(pq, Node{v: e.to, d: dist[e.to]})
 			}
-
 		}
 	}
 
