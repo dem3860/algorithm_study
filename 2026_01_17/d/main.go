@@ -146,7 +146,7 @@ func Dfs_by_stack(pos int, graph Graph) {
 	todo := NewStack(n)
 
 	// ノードposから始まる
-	_ = todo.Push(State{v:pos,cost:0,depth: 0 })
+	_ = todo.Push(State{v: pos, cost: 0, depth: 0})
 
 	for !todo.IsEmpty() {
 		cur, _ := todo.Pop()
@@ -163,12 +163,12 @@ func Dfs_by_stack(pos int, graph Graph) {
 		}
 
 		for _, next := range graph[cur.v] {
-				nextState := State{
-					v: next.to,
-					cost: cur.cost + next.cost,
-					depth: cur.depth + 1,
-				}
-				_ = todo.Push(nextState)
+			nextState := State{
+				v:     next.to,
+				cost:  cur.cost + next.cost,
+				depth: cur.depth + 1,
+			}
+			_ = todo.Push(nextState)
 		}
 	}
 }
@@ -197,9 +197,9 @@ func main() {
 
 	Dfs_by_stack(0, graph)
 
-	ans := make([]int,0)
+	ans := make([]int, 0)
 
-	for i := 0;i < n;i++ {
+	for i := 0; i < n; i++ {
 		if okVertices[i] {
 			ans = append(ans, i+1)
 		}
@@ -207,7 +207,7 @@ func main() {
 
 	if len(ans) == 0 {
 		io.Println()
-	}else {
+	} else {
 		io.PrintSliceInt(ans)
 	}
 
