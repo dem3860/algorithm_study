@@ -52,10 +52,10 @@ type Monster struct {
 func isSameDirection(a, b Monster) bool {
 	// Cross Product: x1*y2 - x2*y1
 	cp := int64(a.X)*int64(b.Y) - int64(b.X)*int64(a.Y)
-	
+
 	// Dot Product: x1*x2 + y1*y2
 	dp := int64(a.X)*int64(b.X) + int64(a.Y)*int64(b.Y)
-	
+
 	// 外積0(平行) かつ 内積正(同じ向き)
 	return cp == 0 && dp > 0
 }
@@ -97,7 +97,7 @@ func main() {
 	// 3. ブロック情報の事前計算
 	// BlockStart[i] : インデックスiのモンスターと同じ方向の塊の「開始インデックス」
 	// BlockEnd[i]   : インデックスiのモンスターと同じ方向の塊の「終了インデックス」
-	
+
 	blockStart := make([]int, doubledN)
 	blockEnd := make([]int, doubledN)
 
@@ -139,7 +139,7 @@ func main() {
 		// ここに来たら「方向が違う」ので、必ず回転が発生する。
 		// 基本の移動先
 		targetIdxB := idxB
-		
+
 		// 境界をまたぐ場合 (例: idxA=N-1(南), idxB=0(北) みたいなケースはidxA < idxBじゃないのでここ通らない)
 		// 境界またぎ: A(角度小) -> B(角度大) ※降順ソートなので indexは大 -> 小 になるはずだが...
 		// 降順ソートなので:

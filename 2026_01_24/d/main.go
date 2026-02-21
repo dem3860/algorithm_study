@@ -95,11 +95,11 @@ func main() {
 
 	for i := 0; i < Q; i++ {
 		t := io.ReadInt()
-		
+
 		if t == 1 {
 			x := io.ReadInt()
 
-			A[x],A[x+1] = A[x+1],A[x]
+			A[x], A[x+1] = A[x+1], A[x]
 
 			tree.Update(x, A[x])
 			tree.Update(x+1, A[x+1])

@@ -68,5 +68,5 @@ func main() {
 			io.Print(" ")
 		}
 	}
-    io.Print("\n")
+	io.Print("\n")
 }
